@@ -107,8 +107,8 @@
 			isa = PBXGroup;
 			children = (
 				94AE95BD26F09B66003D6AEC /* MainVC.swift */,
-				94AE95BF26F09B93003D6AEC /* DetailVC.swift */,
 				94AE95C126F09BB4003D6AEC /* AddCityVC.swift */,
+				94AE95BF26F09B93003D6AEC /* DetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

@@ -12,8 +12,6 @@ protocol WeatherManagerDelegate {
     func didGetCityName (name: String)
 }
 
-
-
 class WeatherManager {
     
     var delegate: WeatherManagerDelegate?

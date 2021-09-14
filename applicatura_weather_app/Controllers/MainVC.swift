@@ -35,25 +35,26 @@ class MainVC: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
         //hide empty cells
         tableView.tableFooterView = UIView(frame: .zero)
+        
     }
-    
-    
-    
-    
     
     //MARK: - Data save/load methods
     
     func saveCities() {
+        
         do {
             try context.save()
         } catch {
             print("Error saving data - \(error)")
         }
+        
     }
     
     func loadFavoriteCities() {
+        
         let request : NSFetchRequest<Favorite> = Favorite.fetchRequest()
         
         do{
@@ -63,21 +64,23 @@ class MainVC: UIViewController {
         }
         
         tableView.reloadData()
+        
     }
     
-    //MARK: - Add favorite city button
+    //MARK: - Add favorite city button pressed
     
     @IBAction func addCityPressed(_ sender: Any) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let addVC = storyboard.instantiateViewController(withIdentifier: "addCity") as! AddCityVC
-        
         addVC.modalPresentationStyle = .automatic
         
-        present(addVC, animated: true)
-    }
+        addVC.delegate = self
         
+        present(addVC, animated: true)
+        
+    }
 }
 
 //MARK: - TableView methods
@@ -91,7 +94,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         cell.textLabel?.text = favoriteCities[indexPath.row].city
@@ -101,7 +104,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -111,14 +114,14 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         detailVC.modalPresentationStyle = .automatic
         
         detailVC.city = favoriteCities[indexPath.row].city
-
+        
         present(detailVC, animated: true)
         
     }
     
 }
 
-    //MARK: - LocationManager delegate methods
+//MARK: - LocationManager delegate methods
 
 extension MainVC: CLLocationManagerDelegate {
     
@@ -129,21 +132,21 @@ extension MainVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-       
+        
         if let location = locations.last {
             
             locationManager.stopUpdatingLocation()
             
             let lat = location.coordinate.latitude
             let long = location.coordinate.longitude
-
-           weatherManager.getCityName(lat: lat, long: long)
+            
+            weatherManager.getCityName(lat: lat, long: long)
             
         }
     }
 }
 
-    //MARK: - WetherManager delegate methods
+//MARK: - WetherManager delegate methods
 
 extension MainVC: WeatherManagerDelegate {
     
@@ -157,10 +160,29 @@ extension MainVC: WeatherManagerDelegate {
         current.city = name
         
         self.favoriteCities.append(current)
+        
         self.saveCities()
         
         DispatchQueue.main.async {
+            
             self.tableView.reloadData()
+            
+        }
+    }
+}
+
+//MARK: - AddVCDelegate delegate method
+
+extension MainVC: AddVCDelegate {
+    
+    func updateView() {
+        
+        loadFavoriteCities()
+        
+        DispatchQueue.main.async {
+            
+            self.tableView.reloadData()
+            
         }
     }
 }
