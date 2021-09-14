@@ -9,10 +9,13 @@ import UIKit
 
 class DetailVC: UIViewController {
 
+    var city: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-      
+        //hide empty cells
+        //tableView.tableFooterView = UIView(frame: .zero)
     }
     
 }
