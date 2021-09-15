@@ -9,4 +9,6 @@ import Foundation
 
 struct CityData: Codable {
     let name: String
+    let lat: Float
+    let lon: Float
 }

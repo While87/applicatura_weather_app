@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import CoreLocation
 
 protocol WeatherManagerDelegate {
-    func didGetCityName (name: String)
+    func didGetData (name: String, lat: String, lon: String)
 }
 
 class WeatherManager {
@@ -21,13 +20,20 @@ class WeatherManager {
     
     
     
-    //MARK: - Getting city name by coordinats
+    //MARK: - Getting city name or coordinates
     
-    func getCityName(lat: CLLocationDegrees, long: CLLocationDegrees) {
+    func getNameOrCoordinates(lat: String?, lon: String?, name: String?) {
+        var url: String
         
-        let cityURL = "https://api.openweathermap.org/geo/1.0/reverse?lat=\(lat)&lon=\(long)&limit=1&appid=\(APIKey)"
+        if name == nil && lat != nil && lon != nil {
+            url = "https://api.openweathermap.org/geo/1.0/reverse?lat=\(lat!)&lon=\(lon!)&limit=1&appid=\(APIKey)"
+        } else {
+            let site = "https://api.openweathermap.org/geo/1.0/direct?q=\(name!)&limit=1&appid=\(APIKey)"
+            //Checking to whitespaces in name like "Saint Petersburg"
+            url = site.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        }
         
-        guard let url = URL(string: cityURL) else { return }
+        guard let url = URL(string: url) else { return }
         
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             
@@ -36,7 +42,11 @@ class WeatherManager {
             do {
                 let city = try JSONDecoder().decode([CityData].self, from: data)
                 
-                self.delegate?.didGetCityName(name: city[0].name)
+                let name = String(city[0].name)
+                let lat = String(city[0].lat)
+                let lon = String(city[0].lon)
+                
+                self.delegate?.didGetData(name: name, lat: lat, lon: lon)
                 
             } catch {
                 print(error)
@@ -45,10 +55,9 @@ class WeatherManager {
         }.resume()
     }
     
-        //MARK: - Getting weather
+    //MARK: - Getting weather
     
     func getWeather(lat: String, long: String) {
-        let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&units=metric&appid=57d18d415f683670998585db51c375d6"
+//        let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&units=metric&appid=57d18d415f683670998585db51c375d6"
     }
-    
 }

@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import CoreData
 
 protocol AddVCDelegate {
     
-    func updateView ()
-    
+    func updateViewData()
 }
 
 class AddCityVC: UIViewController {
@@ -19,18 +17,18 @@ class AddCityVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cityTextField: UITextField!
     
-    var favoriteCities = [City]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    var weatherManager = WeatherManager()
+    var dataManager: DataManager?
     var delegate: AddVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        updateData()
+        
         gestureRecognizer()
         
-        loadFavoriteCities()
-        
+        weatherManager.delegate = self
         cityTextField.delegate = self
         
         tableView.dataSource = self
@@ -38,72 +36,29 @@ class AddCityVC: UIViewController {
         
         //hide empty cells
         tableView.tableFooterView = UIView(frame: .zero)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        
-        delegate?.updateView()
-    }
-    
-    //MARK: - Data save/load methods
-    
-    func saveFavoriteCities() {
-        
-        do {
-            try context.save()
-        } catch {
-            print("Error saving data - \(error)")
-        }
-        
-        DispatchQueue.main.async {
-            
-            self.tableView.reloadData()
-            
-        }
-    }
-    
-    func loadFavoriteCities() {
-        
-        let request : NSFetchRequest<City> = City.fetchRequest()
-        
-        do{
-            favoriteCities = try! context.fetch(request)
-        } catch {
-            print("Error loading cities \(error)")
-        }
-        
+        delegate?.updateViewData()
     }
     
     func addFavoriteCity(name: String) {
-        
-        guard !favoriteCities.contains(where: { $0.name == name }) else {
+        guard !(dataManager?.favoriteCities.contains(where: { $0.name == name }))! else {
             return
         }
         
-        let newCity = City(context: self.context)
-        
-        newCity.name = name
-        
-        self.favoriteCities.append(newCity)
-        
-        self.saveFavoriteCities()
-
+        weatherManager.getNameOrCoordinates(lat: nil, lon: nil, name: name)
     }
     
     @objc func removeFavoriteCity (sender: AnyObject) {
-       
-        context.delete(favoriteCities[sender.tag])
+        dataManager?.context.delete((dataManager?.favoriteCities[sender.tag])!)
+        dataManager?.saveCities()
         
-        self.saveFavoriteCities()
-        
-        loadFavoriteCities()
-        
+        updateData()
     }
     
     @IBAction func addPressed(_ sender: Any) {
-        
         guard let city = cityTextField.text, cityTextField.text != "", cityTextField.text != nil else { return }
         
         addFavoriteCity(name: city)
@@ -112,38 +67,39 @@ class AddCityVC: UIViewController {
         
         self.view.endEditing(true)
     }
+    
+    func updateData() {
+        dataManager?.loadCities()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
+
+
 
 //MARK: - Handling keyboard behavior
 
 extension AddCityVC: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         guard let city = cityTextField.text, cityTextField.text != "", cityTextField.text != nil else { return false}
         
         addFavoriteCity(name: city)
-        
         cityTextField.text = ""
-        
         self.view.endEditing(true)
         
         return true
-        
     }
     
     func gestureRecognizer() {
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        
         view.addGestureRecognizer(tap)
-        
     }
     
     @objc func hideKeyboard () {
-        
         self.view.endEditing(true)
-        
     }
 }
 
@@ -152,13 +108,10 @@ extension AddCityVC: UITextFieldDelegate {
 extension AddCityVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return favoriteCities.count
-        
+        return (dataManager?.favoriteCities.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let button = UIButton(type: .custom)
@@ -168,12 +121,30 @@ extension AddCityVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.accessoryView = button
         cell.accessoryView?.tag = indexPath.row
-        
         cell.selectionStyle = .none
-        
-        cell.textLabel?.text = favoriteCities[indexPath.row].name
+        cell.textLabel?.text = dataManager?.favoriteCities[indexPath.row].name
         
         return cell
+    }
+}
+
+//MARK: - WetherManager delegate methods
+
+extension AddCityVC: WeatherManagerDelegate {
+  
+    func didGetData(name: String, lat: String, lon: String) {
+        guard !(dataManager?.favoriteCities.contains(where: { $0.name == name }))! else { return }
         
+        let newCity = City(context: dataManager!.context)
+        newCity.name = name
+        newCity.lat = lat
+        newCity.lon = lon
+        
+        dataManager?.favoriteCities.append(newCity)
+        dataManager?.saveCities()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

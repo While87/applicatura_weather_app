@@ -148,7 +148,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="4yc-E6-FNA">
-                                <rect key="frame" x="87" y="155.5" width="240" height="34"/>
+                                <rect key="frame" x="87" y="122" width="240" height="34"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4hb-Zg-OWE">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="34"/>
@@ -167,7 +167,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x7o-z5-4UE">
-                                <rect key="frame" x="10" y="219.5" width="394" height="612.5"/>
+                                <rect key="frame" x="10" y="186" width="394" height="646"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="xgw-5m-njZ">
@@ -180,24 +180,16 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите название латиницей" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXY-oi-QlK">
-                                <rect key="frame" x="91.5" y="105" width="231.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ukQ-dP-bLZ"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="BPG-CU-3Sn" firstAttribute="centerX" secondItem="toJ-xO-QLI" secondAttribute="centerX" id="0BC-Q4-Uay"/>
-                            <constraint firstItem="ZXY-oi-QlK" firstAttribute="centerX" secondItem="toJ-xO-QLI" secondAttribute="centerX" id="6hp-Cb-Yri"/>
-                            <constraint firstItem="4yc-E6-FNA" firstAttribute="top" secondItem="ZXY-oi-QlK" secondAttribute="bottom" constant="30" id="AZY-V1-JhC"/>
                             <constraint firstItem="x7o-z5-4UE" firstAttribute="leading" secondItem="ukQ-dP-bLZ" secondAttribute="leading" constant="10" id="B0u-TA-eZg"/>
                             <constraint firstItem="4yc-E6-FNA" firstAttribute="centerX" secondItem="toJ-xO-QLI" secondAttribute="centerX" id="H8R-LV-4dd"/>
+                            <constraint firstItem="4yc-E6-FNA" firstAttribute="top" secondItem="BPG-CU-3Sn" secondAttribute="bottom" constant="25" id="UfV-uW-SdJ"/>
                             <constraint firstItem="ukQ-dP-bLZ" firstAttribute="bottom" secondItem="x7o-z5-4UE" secondAttribute="bottom" constant="30" id="a0X-bR-els"/>
                             <constraint firstItem="ukQ-dP-bLZ" firstAttribute="trailing" secondItem="x7o-z5-4UE" secondAttribute="trailing" constant="10" id="aRs-2Q-NVe"/>
-                            <constraint firstItem="ZXY-oi-QlK" firstAttribute="top" secondItem="BPG-CU-3Sn" secondAttribute="bottom" constant="8" id="fmE-fx-fLQ"/>
                             <constraint firstItem="x7o-z5-4UE" firstAttribute="top" secondItem="4yc-E6-FNA" secondAttribute="bottom" constant="30" id="qjT-Ku-Wr1"/>
                             <constraint firstItem="BPG-CU-3Sn" firstAttribute="top" secondItem="ukQ-dP-bLZ" secondAttribute="top" constant="30" id="v9M-Wf-6Xx"/>
                         </constraints>
