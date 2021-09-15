@@ -21,13 +21,13 @@ struct Current: Codable {
 struct Daily: Codable {
     let dt: Date
     let humidity: Float
-    let windSpeed: Float
+    let wind_speed: Float
     let temp: Temp
     let weather: [Weather]
 }
 
 struct Weather: Codable {
-    let id: Int
+    let id: Float
 }
 
 struct Temp: Codable {

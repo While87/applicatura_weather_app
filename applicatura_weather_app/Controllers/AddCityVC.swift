@@ -8,7 +8,6 @@
 import UIKit
 
 protocol AddVCDelegate {
-    
     func updateViewData()
 }
 
@@ -40,7 +39,14 @@ class AddCityVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        
         delegate?.updateViewData()
+        updateWeather()
+    }
+    
+    func updateWeather() {
+        guard let cities = dataManager?.getCitiesAsArray() else { return }
+        weatherManager.getWeather(cities: cities)
     }
     
     func addFavoriteCity(name: String) {
@@ -53,7 +59,7 @@ class AddCityVC: UIViewController {
     
     @objc func removeFavoriteCity (sender: AnyObject) {
         dataManager?.context.delete((dataManager?.favoriteCities[sender.tag])!)
-        dataManager?.saveCities()
+        dataManager?.saveContext()
         
         updateData()
     }
@@ -62,7 +68,6 @@ class AddCityVC: UIViewController {
         guard let city = cityTextField.text, cityTextField.text != "", cityTextField.text != nil else { return }
         
         addFavoriteCity(name: city)
-        
         cityTextField.text = ""
         
         self.view.endEditing(true)
@@ -76,8 +81,6 @@ class AddCityVC: UIViewController {
         }
     }
 }
-
-
 
 //MARK: - Handling keyboard behavior
 
@@ -131,20 +134,18 @@ extension AddCityVC: UITableViewDataSource, UITableViewDelegate {
 //MARK: - WetherManager delegate methods
 
 extension AddCityVC: WeatherManagerDelegate {
-  
-    func didGetData(name: String, lat: String, lon: String) {
-        guard !(dataManager?.favoriteCities.contains(where: { $0.name == name }))! else { return }
+    
+    func didGetCity(data: CityData) {
+        dataManager?.addCity(city: data)
         
-        let newCity = City(context: dataManager!.context)
-        newCity.name = name
-        newCity.lat = lat
-        newCity.lon = lon
-        
-        dataManager?.favoriteCities.append(newCity)
-        dataManager?.saveCities()
+        updateWeather()
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func didGetWeather(data: WeatherData, city: City) {
+        dataManager?.addWeather(weather: data, city: city)
     }
 }

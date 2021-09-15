@@ -25,6 +25,7 @@ class MainVC: UIViewController {
         locationManager.requestLocation()
         
         weatherManager.delegate = self
+        dataManager.delegate = self
         
         updateViewData() //get data and update tableView
         
@@ -34,6 +35,11 @@ class MainVC: UIViewController {
         //hide empty cells
         tableView.tableFooterView = UIView(frame: .zero)
         
+    }
+    
+    func updateWeather() {
+        let cities = dataManager.getCitiesAsArray()
+        weatherManager.getWeather(cities: cities)
     }
     
     //MARK: - Add favorite city button pressed
@@ -104,20 +110,19 @@ extension MainVC: CLLocationManagerDelegate {
 
 extension MainVC: WeatherManagerDelegate {
     
-    func didGetData(name: String, lat: String, lon: String) {
-        guard !dataManager.favoriteCities.contains(where: { $0.name == name }) else { return }
-        
-        let newCity = City(context: dataManager.context)
-        newCity.name = name
-        newCity.lat = lat
-        newCity.lon = lon
-        
-        dataManager.favoriteCities.append(newCity)
-        dataManager.saveCities()
+    func didGetCity(data: CityData) {
+        dataManager.addCity(city: data)
+
+        updateWeather()
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func didGetWeather(data: WeatherData, city: City) {
+        dataManager.addWeather(weather: data, city: city)
+        updateViewData()
     }
 }
 
@@ -131,5 +136,13 @@ extension MainVC: AddVCDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+    //MARK: - DataManagerDelegate method
+
+extension MainVC: DatamanagerDelegate {
+    func didGetWeather() {
+        tableView.reloadData()
     }
 }

@@ -20,6 +20,10 @@
 		94AE95C226F09BB4003D6AEC /* AddCityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AE95C126F09BB4003D6AEC /* AddCityVC.swift */; };
 		94AE95C626F0E747003D6AEC /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AE95C526F0E747003D6AEC /* WeatherManager.swift */; };
 		94AE95C826F0EEB3003D6AEC /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AE95C726F0EEB3003D6AEC /* CityData.swift */; };
+		94DCCB3F26F28FDA003E3E89 /* CellOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DCCB3D26F28FDA003E3E89 /* CellOnMain.swift */; };
+		94DCCB4026F28FDA003E3E89 /* CellOnMain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94DCCB3E26F28FDA003E3E89 /* CellOnMain.xib */; };
+		94DCCB4426F29001003E3E89 /* CellOnDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DCCB4226F29001003E3E89 /* CellOnDetail.swift */; };
+		94DCCB4526F29001003E3E89 /* CellOnDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94DCCB4326F29001003E3E89 /* CellOnDetail.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,10 @@
 		94AE95C126F09BB4003D6AEC /* AddCityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCityVC.swift; sourceTree = "<group>"; };
 		94AE95C526F0E747003D6AEC /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		94AE95C726F0EEB3003D6AEC /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
+		94DCCB3D26F28FDA003E3E89 /* CellOnMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellOnMain.swift; sourceTree = "<group>"; };
+		94DCCB3E26F28FDA003E3E89 /* CellOnMain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CellOnMain.xib; sourceTree = "<group>"; };
+		94DCCB4226F29001003E3E89 /* CellOnDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellOnDetail.swift; sourceTree = "<group>"; };
+		94DCCB4326F29001003E3E89 /* CellOnDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CellOnDetail.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				94AE95A726F08905003D6AEC /* Main.storyboard */,
+				94DCCB4126F28FE6003E3E89 /* CustomCells */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -134,6 +143,17 @@
 				94AB0EBF26F1EF500061B4E4 /* DataManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		94DCCB4126F28FE6003E3E89 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				94DCCB3D26F28FDA003E3E89 /* CellOnMain.swift */,
+				94DCCB3E26F28FDA003E3E89 /* CellOnMain.xib */,
+				94DCCB4226F29001003E3E89 /* CellOnDetail.swift */,
+				94DCCB4326F29001003E3E89 /* CellOnDetail.xib */,
+			);
+			path = CustomCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +213,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94DCCB4526F29001003E3E89 /* CellOnDetail.xib in Resources */,
 				94AE95B126F08905003D6AEC /* LaunchScreen.storyboard in Resources */,
+				94DCCB4026F28FDA003E3E89 /* CellOnMain.xib in Resources */,
 				94AE95AE26F08905003D6AEC /* Assets.xcassets in Resources */,
 				94AE95A926F08905003D6AEC /* Main.storyboard in Resources */,
 			);
@@ -208,12 +230,14 @@
 			files = (
 				94AE95C026F09B93003D6AEC /* DetailVC.swift in Sources */,
 				94AE95AC26F08905003D6AEC /* applicatura_weather_app.xcdatamodeld in Sources */,
+				94DCCB3F26F28FDA003E3E89 /* CellOnMain.swift in Sources */,
 				94AE95BE26F09B66003D6AEC /* MainVC.swift in Sources */,
 				94AE95C626F0E747003D6AEC /* WeatherManager.swift in Sources */,
 				94AE95C826F0EEB3003D6AEC /* CityData.swift in Sources */,
 				94AE95C226F09BB4003D6AEC /* AddCityVC.swift in Sources */,
 				94AB0EC326F1F0350061B4E4 /* WeatherData.swift in Sources */,
 				94AE95A226F08905003D6AEC /* AppDelegate.swift in Sources */,
+				94DCCB4426F29001003E3E89 /* CellOnDetail.swift in Sources */,
 				94AB0EC026F1EF500061B4E4 /* DataManager.swift in Sources */,
 				94AE95A426F08905003D6AEC /* SceneDelegate.swift in Sources */,
 			);

@@ -8,7 +8,8 @@
 import Foundation
 
 protocol WeatherManagerDelegate {
-    func didGetData (name: String, lat: String, lon: String)
+    func didGetCity (data: CityData)
+    func didGetWeather(data: WeatherData, city: City)
 }
 
 class WeatherManager {
@@ -16,9 +17,6 @@ class WeatherManager {
     var delegate: WeatherManagerDelegate?
     
     private let APIKey = "57d18d415f683670998585db51c375d6"
-    
-    
-    
     
     //MARK: - Getting city name or coordinates
     
@@ -41,12 +39,9 @@ class WeatherManager {
             
             do {
                 let city = try JSONDecoder().decode([CityData].self, from: data)
-                
-                let name = String(city[0].name)
-                let lat = String(city[0].lat)
-                let lon = String(city[0].lon)
-                
-                self.delegate?.didGetData(name: name, lat: lat, lon: lon)
+
+                guard city.count > 0 else { return }
+                self.delegate?.didGetCity(data: city[0])
                 
             } catch {
                 print(error)
@@ -57,7 +52,29 @@ class WeatherManager {
     
     //MARK: - Getting weather
     
-    func getWeather(lat: String, long: String) {
-//        let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&units=metric&appid=57d18d415f683670998585db51c375d6"
+    func getWeather(cities: [City]) {
+        for element in cities {
+            getWeatherData(lat: String(element.lat), long: String(element.lon), city: element )
+        }
+    }
+    
+    private func getWeatherData(lat: String, long: String, city: City) {
+        let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&units=metric&appid=57d18d415f683670998585db51c375d6"
+        
+        guard let url = URL(string: weatherURL) else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let weather = try JSONDecoder().decode(WeatherData.self, from: data)
+                
+                self.delegate?.didGetWeather(data: weather, city: city)
+                
+            } catch {
+                print(error)
+            }
+        }.resume()
     }
 }
