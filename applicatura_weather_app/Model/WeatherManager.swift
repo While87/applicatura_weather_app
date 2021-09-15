@@ -45,4 +45,10 @@ class WeatherManager {
         }.resume()
     }
     
+        //MARK: - Getting weather
+    
+    func getWeather(lat: String, long: String) {
+        let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&units=metric&appid=57d18d415f683670998585db51c375d6"
+    }
+    
 }

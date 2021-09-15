@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Favorite" representedClassName="Favorite" syncable="YES" codeGenerationType="class">
-        <attribute name="city" attributeType="String"/>
+    <entity name="City" representedClassName="City" syncable="YES" codeGenerationType="class">
+        <attribute name="lat" optional="YES" attributeType="String"/>
+        <attribute name="long" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="weather_current" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Weather_current" inverseName="parentCity" inverseEntity="Weather_current"/>
+        <relationship name="weather_daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Weather_daily" inverseName="parentCity" inverseEntity="Weather_daily"/>
+    </entity>
+    <entity name="Weather_current" representedClassName="Weather_current" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="temp" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weather_id" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="parentCity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="weather_current" inverseEntity="City"/>
+    </entity>
+    <entity name="Weather_daily" representedClassName="Weather_daily" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="humidity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="temp_day" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="temp_night" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weather_id" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="wind_speed" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="parentCity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="weather_daily" inverseEntity="City"/>
     </entity>
     <elements>
-        <element name="Favorite" positionX="-6259.6884765625" positionY="2459.722351074219" width="128" height="58"/>
+        <element name="City" positionX="-6259.6884765625" positionY="2459.722351074219" width="128" height="104"/>
+        <element name="Weather_current" positionX="-6264" positionY="2484" width="128" height="89"/>
+        <element name="Weather_daily" positionX="-6255" positionY="2538" width="128" height="134"/>
     </elements>
 </model>
