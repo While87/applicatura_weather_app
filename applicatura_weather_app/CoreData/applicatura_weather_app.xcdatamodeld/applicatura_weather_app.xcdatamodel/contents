@@ -10,7 +10,7 @@
     <entity name="Weather_current" representedClassName=".Weather_current" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="temp" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="weather_id" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weather_id" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="parentCity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="weather_current" inverseEntity="City"/>
     </entity>
     <entity name="Weather_daily" representedClassName=".Weather_daily" syncable="YES" codeGenerationType="class">
@@ -18,7 +18,7 @@
         <attribute name="humidity" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="temp_day" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="temp_night" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="weather_id" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weather_id" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="wind_speed" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="parentCity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="weather_daily" inverseEntity="City"/>
     </entity>

@@ -8,16 +8,50 @@
 import UIKit
 
 class CellOnDetail: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var weatherImage: UIImageView!
+    
+    var condition: Int?
+    var imageName: String {
+        guard let id = condition else { return "questionmark" }
+        switch id {
+        case 200...232:
+            return "cloud.bolt"
+        case 300...321:
+            return "cloud.drizzle"
+        case 500...531:
+            return "cloud.rain"
+        case 600...622:
+            return "cloud.snow"
+        case 701...781:
+            return "cloud.fog"
+        case 800:
+            return "sun.max"
+        case 801...804:
+            return "cloud.bolt"
+        default:
+            return "sun.max"
+        }
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dateLabel.text = ""
+        tempLabel.text = ""
+        humidityLabel.text = ""
+        windLabel.text = ""
+        weatherImage.image = .none
+    }
 }

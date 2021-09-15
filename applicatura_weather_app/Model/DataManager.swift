@@ -74,7 +74,7 @@ class DataManager {
         let newCurrent = Weather_current(context: context)
         
         //fetch current data
-        let date = roundTimeToDay(unixTime: weather.current.dt)
+        let date = roundDayFormat(unixTime: weather.current.dt)
         newCurrent.date = date
         newCurrent.temp = weather.current.temp
         newCurrent.weather_id = weather.current.weather[0].id
@@ -97,7 +97,7 @@ class DataManager {
             
             let newDaily = Weather_daily(context: context)
             
-            let date = roundTimeToDay(unixTime: element.dt)
+            let date = roundDayFormat(unixTime: element.dt)
             
             newDaily.date = date
             newDaily.humidity = element.humidity
@@ -148,15 +148,29 @@ class DataManager {
         }
     }
     
-    func roundTimeToDay(unixTime: Date) -> Date {
-        let longDate = Date(timeIntervalSince1970: unixTime.timeIntervalSinceReferenceDate)
+    func roundDayFormat(unixTime: Date) -> Date {
+        let longDate = Date(timeIntervalSince1970: unixTime.timeIntervalSince1970)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
+       // formatter.timeZone = TimeZone.current
         
         let stringDate = formatter.string(from: longDate)
+        print(stringDate)
         let shortDate = formatter.date(from: stringDate)
-        
+        print(shortDate)
         return shortDate!
+    }
+    
+    func localDate() -> Date {
+        let now = Date()
+        print(now)
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        let dateString = dateFormatter.string(from: now)
+        print(dateString)
+        let dateDate = dateFormatter.date(from: dateString)
+        print(dateDate)
+        return dateDate!
     }
 }

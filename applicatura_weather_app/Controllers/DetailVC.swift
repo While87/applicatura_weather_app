@@ -14,8 +14,7 @@ class DetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //hide empty cells
-        //tableView.tableFooterView = UIView(frame: .zero)
+        //tableView.register(CellOnMain.self, forCellReuseIdentifier: "CellOnMain")
     }
     
 }

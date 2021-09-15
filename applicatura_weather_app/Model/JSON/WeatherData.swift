@@ -27,7 +27,7 @@ struct Daily: Codable {
 }
 
 struct Weather: Codable {
-    let id: Float
+    let id: Int16
 }
 
 struct Temp: Codable {
