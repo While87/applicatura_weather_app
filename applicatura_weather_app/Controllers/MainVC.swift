@@ -16,7 +16,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
-    var favoriteCities = [Favorite]()
+    var favoriteCities = [City]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let locationManager = CLLocationManager()
@@ -55,7 +55,7 @@ class MainVC: UIViewController {
     
     func loadFavoriteCities() {
         
-        let request : NSFetchRequest<Favorite> = Favorite.fetchRequest()
+        let request : NSFetchRequest<City> = City.fetchRequest()
         
         do{
             favoriteCities = try context.fetch(request)
@@ -97,7 +97,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = favoriteCities[indexPath.row].city
+        cell.textLabel?.text = favoriteCities[indexPath.row].name
         
         return cell
         
@@ -113,7 +113,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         
         detailVC.modalPresentationStyle = .automatic
         
-        detailVC.city = favoriteCities[indexPath.row].city
+        detailVC.city = favoriteCities[indexPath.row].name
         
         present(detailVC, animated: true)
         
@@ -152,12 +152,12 @@ extension MainVC: WeatherManagerDelegate {
     
     func didGetCityName(name: String) {
         
-        guard !favoriteCities.contains(where: { $0.city == name }) else {
+        guard !favoriteCities.contains(where: { $0.name == name }) else {
             return
         }
         
-        let current = Favorite(context: self.context)
-        current.city = name
+        let current = City(context: self.context)
+        current.name = name
         
         self.favoriteCities.append(current)
         

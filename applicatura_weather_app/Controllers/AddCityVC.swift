@@ -19,7 +19,7 @@ class AddCityVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cityTextField: UITextField!
     
-    var favoriteCities = [Favorite]()
+    var favoriteCities = [City]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var delegate: AddVCDelegate?
@@ -66,10 +66,10 @@ class AddCityVC: UIViewController {
     
     func loadFavoriteCities() {
         
-        let request : NSFetchRequest<Favorite> = Favorite.fetchRequest()
+        let request : NSFetchRequest<City> = City.fetchRequest()
         
         do{
-            favoriteCities = try context.fetch(request)
+            favoriteCities = try! context.fetch(request)
         } catch {
             print("Error loading cities \(error)")
         }
@@ -78,13 +78,13 @@ class AddCityVC: UIViewController {
     
     func addFavoriteCity(name: String) {
         
-        guard !favoriteCities.contains(where: { $0.city == name }) else {
+        guard !favoriteCities.contains(where: { $0.name == name }) else {
             return
         }
         
-        let newCity = Favorite(context: self.context)
+        let newCity = City(context: self.context)
         
-        newCity.city = name
+        newCity.name = name
         
         self.favoriteCities.append(newCity)
         
@@ -171,7 +171,7 @@ extension AddCityVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.selectionStyle = .none
         
-        cell.textLabel?.text = favoriteCities[indexPath.row].city
+        cell.textLabel?.text = favoriteCities[indexPath.row].name
         
         return cell
         
