@@ -35,7 +35,8 @@ class MainVC: UIViewController {
         //hide empty cells
         tableView.tableFooterView = UIView(frame: .zero)
         
-        tableView.register(CellOnMain.self, forCellReuseIdentifier: "CellOnMain")
+        //tableView.register(CellOnMain.self, forCellReuseIdentifier: "CellOnMain")
+        tableView.register(UINib(nibName: "CellOnMain", bundle: nil), forCellReuseIdentifier: "CellOnMain")
     }
     
     func updateWeather() {
@@ -70,16 +71,18 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
-        var currentDay = dataManager.roundDayFormat(unixTime: dataManager.localDate())//Date(timeIntervalSince1970: Date().timeIntervalSince1970))
-        print(Date().timeIntervalSince1970)
-        print(currentDay)
+        var currentDate = dataManager.dateToString()
         let city = dataManager.favoriteCities[indexPath.row]
-        dataManager.loadWeatherDaily(for: city)
-        let weather = dataManager.weatherCurent.first(where: {$0.date == Date() })
-        print(weather)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellOnMain", for: indexPath) as! CellOnMain
-        //cell.cityLabel.text = city.name
-
+        dataManager.loadWeatherCurrent(for: city)
+        let weather = dataManager.weatherCurent.first(where: { $0.date == currentDate })
+        
+        let cell: CellOnMain = tableView.dequeueReusableCell (withIdentifier: "CellOnMain") as! CellOnMain
+        
+        if weather != nil {
+            cell.cityLabel?.text = city.name
+            cell.tempLabel?.text = dataManager.signStringTemp(int: Int(weather!.temp))
+            cell.condition = Int(weather!.weather_id)
+    }
 
         return cell
     }

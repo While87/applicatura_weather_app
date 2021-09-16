@@ -76,7 +76,7 @@ class DataManager {
         //fetch current data
         let date = roundDayFormat(unixTime: weather.current.dt)
         newCurrent.date = date
-        newCurrent.temp = weather.current.temp
+        newCurrent.temp = Int16(weather.current.temp)
         newCurrent.weather_id = weather.current.weather[0].id
         newCurrent.parentCity = city
         
@@ -122,9 +122,7 @@ class DataManager {
     
     func loadWeatherCurrent(for city: City) {
         let request: NSFetchRequest<Weather_current> = Weather_current.fetchRequest()
-        
         let cityPredicate = NSPredicate(format: "parentCity.name MATCHES %@", city.name!)
-        
         request.predicate = cityPredicate
         
         do {
@@ -136,9 +134,7 @@ class DataManager {
     
     func loadWeatherDaily(for city: City) {
         let request: NSFetchRequest<Weather_daily> = Weather_daily.fetchRequest()
-        
         let cityPredicate = NSPredicate(format: "parentCity.name MATCHES %@", city.name!)
-        
         request.predicate = cityPredicate
         
         do {
@@ -148,29 +144,34 @@ class DataManager {
         }
     }
     
-    func roundDayFormat(unixTime: Date) -> Date {
-        let longDate = Date(timeIntervalSince1970: unixTime.timeIntervalSince1970)
-        
+    func roundDayFormat(unixTime: Date) -> String {
+        let longDate = Date(timeIntervalSince1970: unixTime.timeIntervalSinceReferenceDate)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-       // formatter.timeZone = TimeZone.current
-        
+       //formatter.timeZone = TimeZone.current
         let stringDate = formatter.string(from: longDate)
-        print(stringDate)
-        let shortDate = formatter.date(from: stringDate)
-        print(shortDate)
-        return shortDate!
+        return stringDate
     }
     
-    func localDate() -> Date {
-        let now = Date()
-        print(now)
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        let dateString = dateFormatter.string(from: now)
-        print(dateString)
-        let dateDate = dateFormatter.date(from: dateString)
-        print(dateDate)
-        return dateDate!
+    func dateToString() -> String {
+        var now = Date()
+        let longDate = Date(timeIntervalSince1970: now.timeIntervalSince1970)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let date = formatter.string(from: longDate)
+        return date
+        
+    }
+    
+    func signStringTemp(int: Int) -> String {
+        let result: String
+        if int > 0 {
+            result = "+ \(int) ºC"
+        } else if int == 0 {
+            result = "\(int) ºC"
+        } else {
+            result = "- \(int) ºC"
+        }
+        return result
     }
 }
