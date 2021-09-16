@@ -47,7 +47,6 @@ class CellOnMain: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
         cityLabel?.text = nil
         tempLabel?.text = nil
         weatherImage?.image = UIImage(systemName: imageName)

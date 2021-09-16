@@ -35,7 +35,6 @@ class MainVC: UIViewController {
         //hide empty cells
         tableView.tableFooterView = UIView(frame: .zero)
         
-        //tableView.register(CellOnMain.self, forCellReuseIdentifier: "CellOnMain")
         tableView.register(UINib(nibName: "CellOnMain", bundle: nil), forCellReuseIdentifier: "CellOnMain")
     }
     
@@ -71,7 +70,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
-        var currentDate = dataManager.dateToString()
+        let currentDate = dataManager.dateToString()
         let city = dataManager.favoriteCities[indexPath.row]
         dataManager.loadWeatherCurrent(for: city)
         let weather = dataManager.weatherCurent.first(where: { $0.date == currentDate })
@@ -80,7 +79,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         
         if weather != nil {
             cell.cityLabel?.text = city.name
-            cell.tempLabel?.text = dataManager.signStringTemp(int: Int(weather!.temp))
+            cell.tempLabel?.text = dataManager.signStringTemp(int: Int(weather!.temp)) + " ºC"
             cell.condition = Int(weather!.weather_id)
     }
 
@@ -94,7 +93,12 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         let detailVC = storyboard.instantiateViewController(withIdentifier: "detail") as! DetailVC
         detailVC.modalPresentationStyle = .automatic
         
-        detailVC.city = dataManager.favoriteCities[indexPath.row].name
+        let city = dataManager.favoriteCities[indexPath.row]
+        dataManager.loadWeatherDaily(for: city)
+        
+        detailVC.city = city.name
+        detailVC.weather = dataManager.weatherDaily
+        detailVC.dataManager = self.dataManager
         
         present(detailVC, animated: true)
     }

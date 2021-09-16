@@ -9,11 +9,11 @@ import UIKit
 
 class CellOnDetail: UITableViewCell {
     
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var windLabel: UILabel!
-    @IBOutlet weak var weatherImage: UIImageView!
+    @IBOutlet weak var dateLabel: UILabel?
+    @IBOutlet weak var tempLabel: UILabel?
+    @IBOutlet weak var humidityLabel: UILabel?
+    @IBOutlet weak var windLabel: UILabel?
+    @IBOutlet weak var weatherImage: UIImageView?
     
     var condition: Int?
     var imageName: String {
@@ -48,10 +48,10 @@ class CellOnDetail: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        dateLabel.text = ""
-        tempLabel.text = ""
-        humidityLabel.text = ""
-        windLabel.text = ""
-        weatherImage.image = .none
+        dateLabel?.text = ""
+        tempLabel?.text = ""
+        humidityLabel?.text = ""
+        windLabel?.text = ""
+        weatherImage?.image = UIImage(systemName: imageName)
     }
 }

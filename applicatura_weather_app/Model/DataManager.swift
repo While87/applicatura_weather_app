@@ -27,7 +27,7 @@ class DataManager {
     //MARK: - Data save/load methods
     
     func saveContext() {
-
+        
         do {
             try context.save()
         } catch {
@@ -111,10 +111,8 @@ class DataManager {
             if let index = weatherDaily.firstIndex(where: { $0.date == date}) {
                 context.delete(weatherDaily[index])
                 weatherDaily.append(newDaily)
-                
             } else {
                 weatherDaily.append(newDaily)
-                
             }
             saveContext()
         }
@@ -144,17 +142,19 @@ class DataManager {
         }
     }
     
+    //MARK: - Utility methods
+    
     func roundDayFormat(unixTime: Date) -> String {
         let longDate = Date(timeIntervalSince1970: unixTime.timeIntervalSinceReferenceDate)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-       //formatter.timeZone = TimeZone.current
+        //formatter.timeZone = TimeZone.current
         let stringDate = formatter.string(from: longDate)
         return stringDate
     }
     
     func dateToString() -> String {
-        var now = Date()
+        let now = Date()
         let longDate = Date(timeIntervalSince1970: now.timeIntervalSince1970)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -166,11 +166,11 @@ class DataManager {
     func signStringTemp(int: Int) -> String {
         let result: String
         if int > 0 {
-            result = "+ \(int) ºC"
+            result = "+\(int)"
         } else if int == 0 {
-            result = "\(int) ºC"
+            result = "\(int)"
         } else {
-            result = "- \(int) ºC"
+            result = "-\(int)"
         }
         return result
     }
