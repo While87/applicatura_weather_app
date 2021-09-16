@@ -5,7 +5,8 @@ Test app for applicatura company
 
 Light and dark mode
 
-![изображение](https://user-images.githubusercontent.com/3084720/133426411-7736b718-18e7-46cb-98b6-215bad7eaf4f.png) ![изображение](https://user-images.githubusercontent.com/3084720/133426482-17705859-3add-4a1a-be4f-28b499c7ef2c.png)
+![изображение](https://user-images.githubusercontent.com/3084720/133594982-26eb418d-c113-4196-aabf-0a8065312ad8.png) ![изображение](https://user-images.githubusercontent.com/3084720/133595079-539ac2cb-e098-439d-887f-95b8efbe04fc.png)
+
 
 
 Editing city favorite list and detail weather mode
