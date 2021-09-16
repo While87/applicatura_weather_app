@@ -9,10 +9,8 @@ import UIKit
 import CoreData
 
 protocol DatamanagerDelegate {
-    
     func didGetWeather()
 }
-
 
 class DataManager {
     
@@ -27,7 +25,6 @@ class DataManager {
     //MARK: - Data save/load methods
     
     func saveContext() {
-        
         do {
             try context.save()
         } catch {
@@ -67,8 +64,6 @@ class DataManager {
     
     func addWeather(weather: WeatherData, city: City) {
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        
         loadWeatherCurrent(for: city)
         
         let newCurrent = Weather_current(context: context)
@@ -87,7 +82,6 @@ class DataManager {
         } else {
             weatherCurent.append(newCurrent)
         }
-        
         saveContext()
         
         //fetch daily data
@@ -128,6 +122,7 @@ class DataManager {
         } catch {
             print("Error fetching data from context \(error)")
         }
+        //delegate?.didloadWeatherCurrent()
     }
     
     func loadWeatherDaily(for city: City) {
@@ -140,6 +135,7 @@ class DataManager {
         } catch {
             print("Error fetching data from context \(error)")
         }
+        //delegate?.didloadWeatherDaily()
     }
     
     //MARK: - Utility methods
@@ -160,7 +156,6 @@ class DataManager {
         formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: longDate)
         return date
-        
     }
     
     func signStringTemp(int: Int) -> String {

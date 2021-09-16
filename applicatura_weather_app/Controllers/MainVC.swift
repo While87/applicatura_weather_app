@@ -36,6 +36,8 @@ class MainVC: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         tableView.register(UINib(nibName: "CellOnMain", bundle: nil), forCellReuseIdentifier: "CellOnMain")
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     func updateWeather() {
@@ -72,7 +74,9 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
                 
         let currentDate = dataManager.dateToString()
         let city = dataManager.favoriteCities[indexPath.row]
+        
         dataManager.loadWeatherCurrent(for: city)
+        
         let weather = dataManager.weatherCurent.first(where: { $0.date == currentDate })
         
         let cell: CellOnMain = tableView.dequeueReusableCell (withIdentifier: "CellOnMain") as! CellOnMain
@@ -160,6 +164,7 @@ extension MainVC: AddVCDelegate {
     //MARK: - DataManagerDelegate method
 
 extension MainVC: DatamanagerDelegate {
+    
     func didGetWeather() {
         tableView.reloadData()
     }
