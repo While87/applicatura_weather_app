@@ -9,7 +9,7 @@ Light and dark mode
 
 
 
-Editing city favorite list and detail weather mode
+Add/deleting city to favorite list and detail weather mode
 
 ![изображение](https://user-images.githubusercontent.com/3084720/133426760-5bcb0828-26de-46fe-bbbd-5430e8c3b1ad.png) ![изображение](https://user-images.githubusercontent.com/3084720/133616083-fdda8a7a-6d41-40cc-9873-328ddfb50b4a.png)
 
